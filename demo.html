@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>data ergo sum | demo</title>
+	<meta name="description" content="A self-writing visual autobiography based on data.">
+	<meta name="keywords" content="data visualization, last.fm, foursquare, flickr, netflix">
+    <meta name="author" content="Luis Cielak">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="../des/assets/css/docs.css" rel="stylesheet"> -->
+    <link href="../assets/css/des.css" rel="stylesheet">
+    <style>
+      body {
+        margin-top: 60px; 
+		/* 60px to make the container go all the way to the bottom of the topbar */
+      }
+
+    </style>
+    <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/img/favicon.ico">
+    <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/apple-touch-icon-72x72.png">	<!-- FIX size-->
+    <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/apple-touch-icon-114x114.png">
+
+	<!-- Le scripts -->
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script type="text/javascript" src="../assets/js/mustache.js"></script>
+	<script src="../assets/js/json2.js"></script>
+    
+
+	<!-- GOOGLE ANALYTICS
+	================================================================ -->
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-30071184-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+	
+    <!-- // onClick()
+        change user name
+     -->
+
+
+    <style>
+    
+  
+        body {
+            background: #252525;
+/*            font-size: 100%;*/
+        }
+        
+        
+        
+        .topbar {
+
+            box-shadow: none;
+        }
+        
+        
+        /* INTRO
+        ----------------------------------------------- */
+
+        
+
+        .intro-text {
+            font-family: "Exo Regular", Helvetica, sans-serif;
+/*            font-size: 10%;    /* 24px / 20px? */*/
+/*            font-weight: 300;*/
+/*            color: #f0f0f0;*/
+/*            line-height: 32px;*/
+        }
+        
+        .intro-text-container {
+            background-color:#2d2d2d;
+            border-radius: 10px;
+            padding: 15px 25px 25px 15px;
+            margin-bottom: 40px;
+            box-shadow: inset 0 1px 3px 0px black,
+                                0 2px 1px -1px #3a3a3a;   
+            background: -15px 0 url('../assets/img/orange_side.png') repeat-y;  /*TODO: fix orange shade;*/
+        }
+        
+        .intro-text-container a {
+            color: #F0F0F0;
+        }
+        
+        .intro-text-container a:hover,
+        .intro-text-container a:focus {
+            background: #C06D4A;
+            color: #F0F0F0;
+            opacity: 1;
+        }
+        
+        .intro-text-container .intro-text h2 {
+        font: bold 1.258333333333333em "Exo Demi Bold", Arial, sans-serif;  /* 11px / 24px */
+            color: #F0F0F0;
+            letter-spacing: 0.05em;
+            line-height: 1.3em;
+            text-decoration: none;
+            opacity: 0.8;
+        }        
+
+        .intro-text-container .intro-text h3 {
+        font: light 0.858333333333333em "Exo Regular", Arial, sans-serif;  /* 11px / 24px */
+            color: #F0F0F0;
+            letter-spacing: 0.08em;
+            line-height: 1.4em;
+            text-decoration: none;
+            opacity: 0.6;
+        }        
+        
+
+
+        .intro-text-container h2 {
+            margin-bottom: 10px;
+            margin-left: 7px;            
+        }
+
+        .intro-text-container h3 {
+            margin-left: 15px;
+        }
+
+ 
+        /* STEPS 
+        -------------------------------------------*/
+        .steps-container {
+            height:290px;
+            background-color:#2d2d2d;
+            border-radius: 10px;            
+            margin: 15px 0 15px 0;  
+            box-shadow: inset 0 1px 3px 0px black;
+          }
+
+
+        .steps-container-image-01 {    
+            height: 88%;
+            max-width: 100%;
+            background: url('../assets/img/des_step01.png') no-repeat;
+            background-position: 50% 110%;            
+        }
+                
+        .steps-container-image-02 {    
+            height: 88%;
+            max-width: 100%;
+            background: url('../assets/img/des_step02.png') no-repeat;
+            background-position: 50% 110%;            
+        }
+
+        .steps-container-image-03 {    
+            height: 88%;
+            max-width: 100%;
+            background: url('../assets/img/des_step03.png') no-repeat;
+            background-position: 50% 110%;            
+        }
+        
+        
+        @media (min-width: 767px) and (max-width: 979px){
+
+             .steps-container-image-01 {
+                 margin: 0 3px 0 3px;
+             }
+             .steps-container-image-02 {
+                 margin: 0 3px 0 3px;
+             }
+
+             .steps-container-image-03 {
+                 margin: 0 3px 0 3px;
+             }
+
+        }
+        
+                
+        
+        .steps-container-title h2 {    
+            font-family: "Aller Regular",Helvetica, sans-serif;
+            color: #f0f0f0;
+            border-radius: 0 0 10px 10px;
+            font-size: 0.9em;
+            text-align: center;
+            opacity: 0.4;       /*TODO: apply opacity to font color instead;*/
+            background: -webkit-gradient(linear, left top, left bottom, from(#232323), to(#000));            
+        }
+        
+
+        /* DEMO
+        --------------------------------------------*/
+        
+        .demo-image {
+            background: url('../assets/img/favicon.ico') 0 8px ;     /*    des_demo-img.png*/
+
+            /* Set rules to fill background */
+            min-height: 100%;
+            min-width: 1024px;
+
+            /* Set up proportionate scaling */
+            width: 100%;
+            height: auto;
+
+            /* Set up positioning */
+            position: fixed;
+            top: 0;
+            left: 0;
+
+        }
+        
+        
+        /*FOOTER
+        --------------------------------------------*/
+        
+        #footer {
+            color: #f0f0f0;
+            opacity: 0.6;
+            padding: 5px;
+            margin: 10px;
+
+        }
+        
+        #footer p {
+            font-family: "Aller Regular", Helvetica, sans-serif;
+            font-weight: 200;
+            font-size: 1em;
+            
+        }
+        
+        #footer a {
+            color: #C06D4A;
+        }
+        
+ 
+
+    </style>
+
+<style>
+
+/* color: 172,97,67 ; #AC6143 
+
+c06d4b
+8c5036
+f49873
+*/
+
+
+/*
+# Forms ############################################################################################### 
+*/
+
+    form{
+    	margin-bottom:40px;
+    }
+
+    label{
+    	font-size:32px;color: #c06d4b;
+    	line-height:1px;
+    	opacity:0.8;
+    }
+    input[type="text"]{
+    	font-size:26px;padding:10px;background:#8c5036;border:1px solid #633927;outline:none;color: #f49873;
+    	-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
+    	-webkit-box-shadow:inset 0 2px 2px rgba(0,0,0,.2),0 1px 1px rgba(255,255,255,.2);-moz-box-shadow:inset 0 2px 2px rgba(0,0,0,.2),0 1px 1px rgba(255,255,255,.2);box-shadow:inset 0 2px 2px rgba(0,0,0,.2),0 1px 1px rgba(255,255,255,.2);
+    	background-image: -moz-linear-gradient(top, rgba(0,0,0,.15), rgba(0,0,0,0));
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0,0,0,.15)), to(rgba(0,0,0,0)));
+    	background-image: linear-gradient(top, rgba(0,0,0,.15), rgba(0,0,0,0));
+    	line-height: -1px;
+    }
+    input[type="text"]:focus{
+    	box-shadow:inset 0 2px 2px rgba(0,0,0,.2),0 1px 1px rgba(255,255,255,.2),0 0 5px rgba(255,255,255,.2);
+    }
+    ::-webkit-input-placeholder {
+       color: #c06d4b;
+/*       line-height:-1px;*/
+    }
+    :-moz-placeholder {
+       color: #c06d4b;
+/*       line-height:-1px;*/
+    }
+    .placeholder{
+    	color: #c06d4b;
+/*       line-height:-1px;*/
+    }
+    .button{
+    	font-size:26px;padding:10px 15px;background:#c06d4b;border:1px solid #8c5036;outline:none;color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,.5);font-weight:bold;cursor:pointer;
+    	-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
+    	-webkit-box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 1px 0 rgba(255,255,255,.2);-moz-box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 1px 0 rgba(255,255,255,.2);box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 1px 0 rgba(255,255,255,.2);
+    	background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.1));
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0,0,0,0)), to(rgba(0,0,0,.1)));
+    	background-image: linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.1));
+    }
+    .button:hover, .button:focus{	
+    	text-decoration:none;
+    	background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.2));
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0,0,0,0)), to(rgba(0,0,0,.2)));
+    	background-image: linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.2));
+    }
+    .button:active{
+    	-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.2);-moz-box-shadow:inset 0 2px 4px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.2);box-shadow:inset 0 2px 4px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.2);
+    	background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.1));
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0,0,0,0)), to(rgba(0,0,0,.1)));
+    	background-image: linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.1));
+    }
+
+
+</style>    
+  </head>
+
+  <body>
+
+      <div class="topbar">
+            <div class="global-nav">
+              <div class="global-nav-inner">
+                <div class="container">
+                    <ul class="nav">
+                      <h2 class="logo"><img src="../assets/img/ico-power-orange.png"> <a href="http://dataergosum.com/">  data ergo sum</a></h2>
+                    </ul>
+                  <div class="pull-right">
+                      <!-- // Desktop and Tablet Nav -->
+                    <ul class="nav secondary-nav hidden-phone hidden">
+                      <li class=""><a href="#"><i class="icon-music icon-white"></i> Music</a></li>
+                      <li><a href="#"><i class="icon-film icon-white"></i> Films</a></li>
+                      <li><a href="#"><i class="icon-picture icon-white"></i> Photos</a></li>
+                      <li><a href="#"><i class="icon-map-marker icon-white"></i> Places</a></li>
+                    </ul>
+
+                      <!-- // Phone Nav -->                      
+                      <ul class="nav secondary-nav visible-phone hidden">
+                        <li class=""><a href="#"><i class="icon-music icon-white"></i> </a></li>
+                        <li><a href="#"><i class="icon-film icon-white"></i> </a></li>
+                        <li><a href="#"><i class="icon-picture icon-white"></i> </a></li>
+                        <li><a href="#"><i class="icon-map-marker icon-white"></i> </a></li>
+                      </ul>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+
+    <div id="wrapper">      
+        
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="title">
+                        <!-- <img src=""><h2> welcome </h2> -->
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        
+        <div class="container">
+            
+            <div class="row">
+                <div class="span12">
+                    <!-- <div class="intro-text-container">
+                        
+                    </div>                 -->
+                </div>
+            </div>
+            
+            <div class="row">
+                
+                <div class="span6 offset2">
+
+
+                    <!-- <object type="application/x-shockwave-flash" width="640" height="427" data="http://www.flickr.com/apps/video/stewart.swf?v=109786" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"> <param name="flashvars" value="intl_lang=en-us&photo_secret=ac857cc9a2&photo_id=7136453727"></param> <param name="movie" value="http://www.flickr.com/apps/video/stewart.swf?v=109786"></param> <param name="bgcolor" value="#000000"></param> <param name="allowFullScreen" value="true"></param><embed type="application/x-shockwave-flash" src="http://www.flickr.com/apps/video/stewart.swf?v=109786" bgcolor="#000000" allowfullscreen="true" flashvars="intl_lang=en-us&photo_secret=ac857cc9a2&photo_id=7136453727" height="427" width="640"></embed></object> -->
+
+                    <iframe src="http://player.vimeo.com/video/41444443?title=0&amp;byline=0&amp;portrait=0&amp;autoplay=1&amp;loop=1" width="640" height="424" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                    
+                <!-- <section class="aligncenter form-inline">
+                <form accept-charset="UTF-8" action="http://dataergosum.com/" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+                    <label for="screen_name">last.fm/</label>
+                    <input id="user_name" name="user_name" placeholder="username" size="30" type="text" />
+                    <button type="submit" class="button">Go</button>
+                </form></section> -->
+
+        </div>
+        
+        
+        
+        
+
+
+        </div>
+
+    </div>
+
+  	     <!-- Footer
+  	      ================================================== -->
+  	      <footer id="footer">
+             <!-- <p ><strong>data ergo sum</strong> <br> <em>  // a self-writing visual autobiography based on data</em></p> -->
+  	        <p class=""><a href="../"><i class="icon-chevron-left icon-white"></i> back to data ergo sum </a></p>
+  	        <p class="pull-right">by <a href="http://twitter.com/luisCielak" target="_blank">@luisCielak</a></p>
+  		  </footer>
+
+
+
+  		</div> <!-- / .container -->
+  	</div> <!-- / .wrapper -->
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+<!-- <section class="aligncenter form-inline">
+<form accept-charset="UTF-8" action="/users" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+    <label for="screen_name">last.fm/</label>
+    <input id="screen_name" name="screen_name" placeholder="username" size="30" type="text" />
+    <button type="submit" class="button">Go</button>
+</form></section> -->
+
+
+
+
+
+<!-- <section class="aligncenter form-inline">
+<form accept-charset="UTF-8" action="/users" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+    <label for="screen_name">last.fm/</label>
+    <input id="screen_name" name="screen_name" placeholder="username" size="30" type="text" />
+    <button type="submit" class="button">Go</button>
+</form></section> -->
+
+
+

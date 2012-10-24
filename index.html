@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>data ergo sum</title>
+	<meta name="description" content="A self-writing visual autobiography based on data.">
+	<meta name="keywords" content="data visualization, last.fm, foursquare, flickr, netflix">
+    <meta name="author" content="Luis Cielak">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="../des/assets/css/docs.css" rel="stylesheet"> -->
+    <link href="../assets/css/des.css" rel="stylesheet">
+    <style>
+      body {
+        margin-top: 60px; 
+		/* 60px to make the container go all the way to the bottom of the topbar */
+      }
+
+    </style>
+    <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/img/favicon.ico">
+    <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/apple-touch-icon-72x72.png">	<!-- FIX size-->
+    <link rel="apple-touch-icon" sizes="114x114" href="http://fstraat.webfactional.com/des/assets/img/apple-touch-icon-114x114.png">
+
+	<!-- Le scripts -->
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script type="text/javascript" src="../assets/js/mustache.js"></script>
+	<script src="../assets/js/json2.js"></script>
+    
+
+	<!-- GOOGLE ANALYTICS
+	================================================================ -->
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-30071184-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+	
+    <!-- // onClick()
+        change user name
+     -->
+
+
+     <script>
+
+
+
+     </script>
+
+
+
+	<!-- LAST.FM scripts
+	================================================================ -->
+	<script>
+	
+	    
+		
+		var userName = 'fstraat',
+			apiKey = '313c4f3aea822b4ecf753d8a276f833f',		
+			format = 'json';
+			
+            // 
+            // 
+            // 
+            // function getQueryVariable(variable)
+            // {
+            //        var query = window.location.search.substring(1);
+            //        var vars = query.split("&");
+            //        for (var i=0;i<vars.length;i++) {
+            //                var pair = vars[i].split("=");
+            //                if(pair[0] == variable){return pair[1];}
+            //        }
+            //        return(false);
+            // 
+            // 
+            // }
+
+
+			
+		getRecentTracks();
+		
+		getTopTracks();
+		
+		getTopArtists();
+		
+	
+		function getTopArtists(){
+			
+			// TOP 5 ARTISTS; WEEK
+						
+			var method = 'user.gettopartists',
+				limit = 5,
+				period = '7day';	// 7day, 30day, overall
+			
+			var maxPlaycount = 0;
+	
+	
+			url = 'http://ws.audioscrobbler.com/2.0/?method='+method+'&limit='+limit+'&period='+period+'&user='+userName+'&format='+format+'&api_key='+apiKey;
+	
+			tmpltTopArtists = '<div class=\"top-track\"><div class=\"stream-track-image\" style=\"width:48px; height:48px; background:#3f3f3f;\"></div><div class=\"stream-track-info\" style=\"height:48px; width:85%; border:none\"><ul><li><span class=\"track-name\">{{name}}</span><br /><span class=\"track-artist\"> {{artist}} </span></li><li><div class=\"progress progress-top\" style=\"background:rgba(240,240,240,.5)\"><div class=\"bar\" style=\"width:{{playcountPercent}}\"> </div></div></li></ul></div></div>';
+					
+			$.getJSON(url,function(data){
+				$.each(data.topartists.artist, function(i,artist) {
+					var view = {
+						name: artist.name.toLowerCase(),			// string.substr(start,length)
+						playcount: artist.playcount,
+						imageSm: artist.image[0]['#text'],
+						imageMd: artist.image[1]['#text'],
+						imageLg: artist.image[2]['#text'],
+						imageXl: artist.image[3]['#text']				
+					};
+					
+				
+					view.playcountPercent = view.playcount*3+"%";   // TODO: fix using max(), min()
+					
+					output = Mustache.render(tmpltTopArtists, view);
+					$(".topartists").append(output);
+
+				});	
+			});
+		};
+	
+    //  TODO: dynamic artist_details div
+	// craete function artist detail
+	// capture the value of the button clicked.
+		
+		function getTopTracks(){
+			// TOP 5 TRACKS; WEEK
+							
+			var method = 'user.gettoptracks',
+				limit = 5,
+				period = '7day';	// 7day, 30day, overall
+			
+			var maxPlaycount = 0;
+	
+
+			url = 'http://ws.audioscrobbler.com/2.0/?method='+method+'&limit='+limit+'&period='+period+'&user='+userName+'&format='+format+'&api_key='+apiKey;
+	
+			tmpltTopTracks = '<div class=\"top-track\"><div class=\"stream-track-image\" style=\"width:48px; height:48px; background:#3f3f3f; opacity:.2;\"><img src=\"{{imageMd}}\" onerror=\"this.style.display=\'none\'\" /></div><div class=\"stream-track-info\" style=\"height:48px; width:85%; border:none\"><ul><li><span class=\"track-name\">{{name}}</span><span class=\"track-artist\"> {{artist}} </span></li><li><div class=\"progress progress-top\" style=\"background:rgba(240,240,240,.5)\"><div class=\"bar\" style=\"width:{{playcountPercent}}\"></div></div></li></ul></div></div>';
+					
+			$.getJSON(url,function(data){
+				$.each(data.toptracks.track, function(i,track) {
+					var view = {
+						name: track.name.toLowerCase(),			// string.substr(start,length)
+						artist: track.artist['name'].toLowerCase(),
+						playcount: track.playcount,
+						mbid: track.mbid
+					};
+					
+					maxPlaycount = Math.max(view.playcount);
+
+					view.playcountPercent = view.playcount*3+"%";   // TODO: fix using min(), max()
+
+					view.nameSplit = track.name.split('(');		// todo: regex
+
+					view.name = view.nameSplit[0].toLowerCase();
+					
+					
+					if(view.name.length > 26){
+						view.name = view.name.substr(0,26)+"...";
+						// console.log(view.name+" "+view.name.length);
+					}
+
+						
+					output = Mustache.render(tmpltTopTracks, view);
+					$(".toptracks").append(output);
+				});
+			});
+		};
+	
+		
+		
+		function getRecentTracks(){
+			// RECENT TRACKS
+				
+			var method = 'user.getrecenttracks',
+				limit = 10,
+				period = 'overall';	// 7day, 30day, overall
+	
+
+			url = 'http://ws.audioscrobbler.com/2.0/?method='+method+'&limit='+limit+'&period='+period+'&user='+userName+'&format=json&api_key='+apiKey;	// b25b959554ed76058ac220b7b2e0a026
+	
+			tbl = '<tr><td class=\"trackimage\"><img src=\"{{imageLg}}\"></td><td class=\"trackname\">{{name}}</td><td class=\"trackartist\">{{artist}}</td><td class=\"trackalbum\">{{album}}</td><td class=\"trackdate\">{{dt.#text}}</td></tr>';
+	
+			tmpltRecentTracks = '<div class=\"stream-track\"><div class=\"stream-track-image\"><img src=\"{{imageMd}}\" onerror=\"this.style.display=\'none\'\" /></div><div class=\"stream-track-info\"><ul><li><span class=\"track-name\">{{name}}</span><span class=\"track-dtm\"> {{dt.#text}} </span></li><li><span class=\"track-artist\">{{artist}}</span></li><li><span class=\"track-album\">{{album}}</span></li></ul></div></div>';
+					
+			$.getJSON(url,function(data){
+				$.each(data.recenttracks.track, function(i,track) {
+					var view = {
+						name: track.name.toLowerCase(),			// string.substr(start,length) --> fix possible when returned string is empty when using .toLowerCase()
+						artist: track.artist['#text'].toLowerCase(),
+						mbid: track.artist['mbid'],
+						streamable: track.streamable,
+						url: track.url,
+						imageSm: track.image[0]['#text'],
+						imageMd: track.image[1]['#text'],
+						imageLg: track.image[2]['#text'],				
+						imageXl: track.image[3]['#text'],				
+						dt: track.date,							// #text, uts
+						album: track.album['#text'],
+						nameSplit:''			// 				regex:	nameSplit: track.name.split(/(?:,| )+/)
+					};
+					
+										
+					view.dt = view.dt;			// TODO: split date
+					
+					// console.info(view.dt);
+				
+					view.nameSplit = track.name.split('(');		// todo: regex
+
+					view.name = view.nameSplit[0].toLowerCase();
+					
+					
+					if(view.name.length > 26){
+						view.name = view.name.substr(0,26)+"...";
+						// console.log(view.name+" "+view.name.length);
+					}
+	
+					output = Mustache.render(tmpltRecentTracks, view);
+					$(".recenttracks").append(output);
+		
+				});
+			});			
+		};
+
+
+	</script>
+
+	<!-- Layout scripts
+	================================================================ -->
+	<script type="text/javascript">
+		function unhide(myDiv){
+			var item = document.getElementById(myDiv);
+			if(item){
+				item.className = (item.className == 'hidden') ? 'unhidden':'hidden';
+			}
+		}
+
+	</script>
+
+
+
+<!-- TASKS 
+=================
+(x)	1.  Html layout structure (music.html)
+(>)	2.  Mustache template, table view
+(x)	3.  Research flot.js applications to DES
+(x)	4.  Limit number of characters rendered on screen
+(x)	5.  If statement for default album view
+	6.  Login page/start functionality (oath?)
+(>)	7.  Artist profile div.  // 		{close button; transition; pass parameters}
+(>)	8.  hover the full div, instead of anchor
+    9.  Sprites              // sprite cow   {x2 icons; orange icons; badges; favicons}
+    10. Responsive wide layout
+    11. Coming soon pages
+    12. Log in screen wireframe // psd
+    13. About/Learn more
+	14. Time zone adjustment
+    15. Split model, view, controller
+    16. Adjust folder permissions
+    17. Key note
+    18. Dynamic user name
+    19. Site-map    // footer nav
+    20. Hover over tooltip display details
+    21. Minify, prettify source
+    22. Read-me file
+	23. 404, errors page
+	24. Create @DataErgoSum
+	
+	*. 'Movies' page	// API: imdb, netflix; flds: quotes, music, director
+		-> search for movies
+-->
+
+
+
+  </head>
+
+  <body>
+
+      <div class="topbar">
+            <div class="global-nav">
+              <div class="global-nav-inner">
+                <div class="container">
+                  <ul class="nav">
+                    <h2 class="logo"><img src="../assets/img/ico-power-orange.png"><a href="http://dataergosum.com/"> data ergo sum</a></h2>
+                  </ul>
+                  <div class="pull-right">
+                      <!-- // Desktop and Tablet Nav -->
+                    <ul class="nav secondary-nav hidden-phone">
+                      <!-- <li class="active"><a href="#"><i class="icon-music icon-white"></i> Music</a></li>
+                      <li><a href="#"><i class="icon-film icon-white"></i> Films</a></li>
+                      <li><a href="#"><i class="icon-picture icon-white"></i> Photos</a></li>
+                      <li><a href="#"><i class="icon-map-marker icon-white"></i> Places</a></li> -->
+                      <li><a href="../about.html"><i class="icon-info-sign icon-white"></i> about </a></li>
+                    </ul>
+
+                      <!-- // Phone Nav -->
+                      <ul class="nav secondary-nav visible-phone">
+                        <!-- <li class="active"><a href="#"><i class="icon-music icon-white"></i> </a></li>
+                        <li><a href="#"><i class="icon-film icon-white"></i> </a></li>
+                        <li><a href="#"><i class="icon-picture icon-white"></i> </a></li>
+                        <li><a href="#"><i class="icon-map-marker icon-white"></i> </a></li> -->
+                      <li><a href="../about.html"><i class="icon-info-sign icon-white"></i> </a></li>
+                      </ul>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+
+    <div id="wrapper">      
+        
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="title">
+                        <img src="..\assets\img\badge-music.png"><h2> Music </h2>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        
+        
+        <div class="container">
+
+
+  			<!-- ARTIST HIDDEN DIV -->
+            <!-- <div id="myDiv" class="hidden">            
+                <div class="well">
+                    <div class="stream-track"><div class="stream-track-image"><img src="http://userserve-ak.last.fm/serve/64s/38525323.jpg" onerror="this.style.display='none'"></div><div class="stream-track-info"><ul><li><span class="track-name"><a href="#">Defusing the Bomb</a></span><span class="track-dtm"> 24 Apr 2012, 17:53 </span></li><li><span class="track-artist"><a href="#">tomáš dvořák</a></span></li><li><span class="track-album">Machinarium OST - Bonus EP</span></li></ul></div></div>
+                </div>
+            </div> -->
+
+
+  			<div class="row">
+  				<div class="span7">
+  					<div class="stream-container">
+  						<div class="stream-tracks">
+  							<div class="stream-header">
+  								<h3> Recent Tracks</h3>
+  							</div>
+  							<div class="recenttracks"></div>
+  							<div class="stream-footer">
+								<small> . </small>
+  								<!-- <small><a href="#">load more ...</a></small> -->
+  							</div>
+  						</div>
+  					</div>	
+  				</div>
+
+
+  				<!-- TOP CHARTS 
+  				======================================================= -->
+
+                <div class="span5">
+
+                    <div class="charts-header pull-right" style="overflow:hidden">
+                        <h3>top tracks this week</h3>
+                    </div><br><br>
+
+                    <div class="stream-container" style="background:rgba(230,230,230,1)">
+                        <div class="toptracks"></div>
+                    </div>
+
+                    <div class="charts-header pull-right" style="overflow:hidden">
+                        <h3>top artists this week</h3>
+                    </div><br><br>
+
+                    <div class="stream-container" style="background:rgba(230,230,230,1)">
+                        <div class="topartists"></div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+  	     <!-- Footer
+  	      ================================================== -->
+  	      <footer id="footer">
+  			<p><strong>data ergo sum</strong> <br> <em>  // a self-writing visual autobiography based on data</em></p>
+  	        <p class="pull-right"><a href="#">back to top <i class="icon-chevron-up"></i></a></p>
+  	        <p>by <a href="http://twitter.com/luisCielak" target="_blank">@luisCielak</a></p>
+  		  </footer>
+
+  		</div> <!-- / .container -->
+  	</div> <!-- / .wrapper -->
+
+  </body>
+</html>
+
+
+
+
+
+<!-- <a href=\"javascript:unhide(\'myDiv\');\"> -->
